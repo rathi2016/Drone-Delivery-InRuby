@@ -22,6 +22,7 @@ class HelperFunctions
     @r * c
 
   end
+
   # function which takes an array of objects (either packages or drones) that we
   # want to sort and the attribute we want to sort the array by
   def sorting(arr, attr)

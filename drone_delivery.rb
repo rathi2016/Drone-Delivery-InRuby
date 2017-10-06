@@ -22,19 +22,28 @@ class Drone_Delivery < HelperFunctions
        Time.at(deadline)
     end
 
-
-    def fetchData
-     @drones = get_drone_info
+    def packagesSorting
      @packages = get_package_info
      for package in @packages
-      # read-able deadline
-       package["deadline"]= intToTime(package["deadline"])
+     # read-able deadline
        distance = distance_between(DEPO,package["destination"])
-      # divided by 50/km per hour drone's speed; this will return us duration, in hours
+     # divided by 50/km per hour drone's speed; this will return us duration, in hours
        package["deliveryTime"] = distance / DRONE_SPEED
+     # if we know how long it will take to deliver the package and we know its delivery deadline
+		 # we can calculate what time the package needs to leave the depo in order to arrive within the deadline
+		 # i:e deadline minus deliveryTime (in milliseconds)
+       package["DepartBy"] = package["deadline"] - package["deliveryTime"]
+       package["deadline"]= intToTime(package["deadline"])
      end
-      puts @packages
+      @packagesQueue = sorting(@packages, "DepartBy");
     end
+
+    def dronesSorting
+      @drones = get_drone_info
+
+    end
+
+
 end
 
 drone = Drone_Delivery.new

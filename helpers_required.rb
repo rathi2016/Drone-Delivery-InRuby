@@ -25,7 +25,7 @@ class HelperFunctions
   # function which takes an array of objects (either packages or drones) that we
   # want to sort and the attribute we want to sort the array by
   def sorting(arr, attr)
-    arr.sort_by { |ele| attr }
+    arr.sort_by { |ele| ele[attr] }
   end
 
 end

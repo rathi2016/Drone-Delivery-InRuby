@@ -4,9 +4,20 @@ class HelperFunctions
   DEPO = {"latitude"=> -37.816664, "longitude"=>144.963848}
   # Drone Speed given = 50km/h
   DRONE_SPEED = 50
+  # Final result object which will have two arrays one holding
+  # packageid and drone id of assigned package and other will hold
+  # packageid of unassigned package
+  SOLUTION = {
+    "assignments"=> [],
+    "unassignedPackageIds"=> []
+  }
   # function to convert numeric degree into radians
   def toRand(value)
     value * (Math::PI/180)
+  end
+  # function for converting given deadline into read-able format(time)
+  def intToTime(deadline)
+     Time.at(deadline)
   end
   # function to get distance in kilometer between two given sets of co-ordinates
   # Which accepts two arguments, Origin(o) and EndPoint(ep) that are objects containing latitude and logitude.

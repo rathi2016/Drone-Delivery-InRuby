@@ -4,10 +4,7 @@ require_relative './helpers_required.rb'
 
 class Drone_Delivery < HelperFunctions
  include UrlPath
-    SOLUTION = {
-      "assignments"=> [],
-      "unassignedPackageIds"=> []
-    }
+
     def initialize
       #Queues for drones and packages
       #1 adding package in queue based on deadline
@@ -18,10 +15,6 @@ class Drone_Delivery < HelperFunctions
       packagesSorting
       # calling drone sorting functionand sorting is done
       dronesSorting
-    end
-    # function for converting given deadline into read-able format(time)
-    def intToTime(deadline)
-       Time.at(deadline)
     end
 
     def packagesSorting
@@ -49,15 +42,12 @@ class Drone_Delivery < HelperFunctions
       # loop for going through information of each individual drone
       for drone in @drones
         # how much time from now will the drone be able to pick up another package
-        # we'll use `-1` to denote that `nextPackageTime` is a number
-        @nextPackageTime = -1
+        @nextPackageTime = 1
         # how much time will it take to get from next destination to depot
 				# allows next destination to be the depot
-				# we'll use `-1` to denote that `depotTime` is a number
-        @depotTime = -1
+        @depotTime = 1
         # how long to get back to the depot after next destination
-				# we'll use `-1` to denote that `depotDistance` is a number
-				@depotDistance = -1;
+				@depotDistance = 1
         # if it has a package, calculate when it will drop the package off
 			  # based on the package destination and where the drone is currently
 			  # after that's calculated determine how long it will take to get back to the depo
@@ -104,15 +94,14 @@ class Drone_Delivery < HelperFunctions
               SOLUTION["unassignedPackageIds"].push(package["packageId"])
         end
       end
-
     end
 
     def solution
       assignPackage
-       puts SOLUTION
+       print SOLUTION
     end
 
 end
 
-drone = Drone_Delivery.new
-drone.solution
+delivery = Drone_Delivery.new
+delivery.solution

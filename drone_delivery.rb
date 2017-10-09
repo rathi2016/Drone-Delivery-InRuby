@@ -13,8 +13,10 @@ class Drone_Delivery < HelperFunctions
       @dronesQueue = [ ]
       # calling package sorting function
       packagesSorting
-      # calling drone sorting functionand sorting is done
+      # calling drone sorting function on an instance created using this class
       dronesSorting
+      #  calling solution function
+      solution
     end
 
     def packagesSorting
@@ -72,17 +74,17 @@ class Drone_Delivery < HelperFunctions
           @nextPackageTime = @depotTime
         end
          drone["nextPackageTime"] = @nextPackageTime*60*60
-        #  drone["canLeaveDepoAt"]= intToTime(drone["nextPackageTime"] + Time.now.to_f)
       end
-      # adding drones into queue sorted by canLeaveDepoAt
+      # adding drones into queue sorted by nextPackageTime
       @dronesQueue = sorting(@drones, "nextPackageTime")
     end
     # Function to match the closest drones to the quickest package deadlines assuming that the deadline can be met
 		# when the drone gets to the depo, calculate how long it will take for it to deliver each package
-		# if it can deliver before the deadline and its delivery is the quickest, assign
+		# if it can deliver before the deadline and its delivery is the quickest then assign
     def assignPackage
         while (@packagesQueue.length != 0)
         package = @packagesQueue.shift
+        # remove and return our first drone from the queue
         drone = @dronesQueue.shift
         @canLeaveDepoAt = intToTime(drone["nextPackageTime"] + Time.now.to_f)
         if (package["departBy"] > @canLeaveDepoAt)
@@ -91,17 +93,16 @@ class Drone_Delivery < HelperFunctions
      						packageId: package["packageId"]
      					})
             else
-              SOLUTION["unassignedPackageIds"].push(package["packageId"])
+                SOLUTION["unassignedPackageIds"].push(package["packageId"])
         end
       end
     end
 
     def solution
       assignPackage
-       print SOLUTION
+       puts SOLUTION
     end
 
 end
 
 delivery = Drone_Delivery.new
-delivery.solution
